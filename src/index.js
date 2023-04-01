@@ -1,4 +1,4 @@
-const compiler = require('vue-template-compiler');
+const { parse } = require('@vue/compiler-dom');
 const parser = require('@babel/parser');
 const traverse = require('@babel/traverse').default;
 const generate = require('@babel/generator').default;
@@ -8,12 +8,17 @@ const { genMixinCustom, genMixinImport, genNewMixinNode } = require('./utils/gen
 
 const handler = function (source, sourceMaps) {
   const options = getOptions(this);
-  console.log('options', options);
+
   if (!Object.keys(options).length) return source;
 
-  const { script } = compiler.parseComponent(source);
-  const { start, end } = script;
-  const scriptContent = script.content;
+  const sourceAST = parse(source);
+  const script = sourceAST.children.find((v) => v.tag === 'script');
+  const [startTag, endTag] = [script.loc.start.offset, script.loc.end.offset];
+  const scriptTag = source.slice(startTag, endTag);
+  const scriptContent = scriptTag.replace(/^<script>|<\/script>$/g, '');
+
+  const start = startTag + '<script>'.length;
+  const end = endTag - '</script>'.length;
 
   // custom 配置
   const customMixinNodes = genMixinCustom(options);

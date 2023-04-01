@@ -1,4 +1,4 @@
-import serialize from 'serialize-javascript';
+const serialize = require('serialize-javascript');
 
 const toString = (val) => {
   return Object.prototype.toString.call(val);
@@ -47,7 +47,7 @@ const removeConstructorFnTag = (str) => {
   return str.replace(/['"]__ConstructorFn\(([^)]+)\)['"]/g, '$1');
 };
 
-export function stringify(obj) {
+module.exports.stringify = (obj) => {
   const handleConstructorVal = (obj) => {
     let str;
     Object.keys(obj).forEach((key) => {
@@ -62,4 +62,4 @@ export function stringify(obj) {
   handleConstructorVal(obj);
   const res = serialize(obj, { space: 2 });
   return removeConstructorFnTag(res);
-}
+};
