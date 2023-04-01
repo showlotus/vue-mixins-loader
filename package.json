@@ -1,0 +1,45 @@
+{
+  "name": "vue-mixin-loader",
+  "version": "1.0.0",
+  "description": "类似 Vue.mixin 功能的 Loader",
+  "main": "index.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "test": "node test/index.test.js",
+    "build": "rollup -c"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/showlotus/vue-mixin-loader.git"
+  },
+  "keywords": [
+    "loader",
+    "vue",
+    "vue-mixin-loader",
+    "webpack"
+  ],
+  "author": "https://github.com/showlotus",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.21.4",
+    "@babel/generator": "^7.20.5",
+    "@babel/parser": "^7.20.5",
+    "@babel/plugin-transform-runtime": "^7.21.4",
+    "@babel/preset-env": "^7.21.4",
+    "@babel/traverse": "^7.20.5",
+    "@rollup/plugin-babel": "^6.0.3",
+    "core-js": "^3.29.1",
+    "loader-runner": "^4.3.0",
+    "loader-utils": "^2.0.4",
+    "rollup": "^3.2.3",
+    "rollup-plugin-terser": "^7.0.2",
+    "serialize-javascript": "^6.0.1",
+    "vue-template-compiler": "^2.6.11"
+  },
+  "bugs": {
+    "url": "https://github.com/showlotus/vue-mixin-loader/issues"
+  },
+  "homepage": "https://github.com/showlotus/vue-mixin-loader#readme"
+}
