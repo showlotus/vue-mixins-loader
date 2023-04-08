@@ -1,6 +1,6 @@
 # vue-mixins-loader
 
-类似 `Vue.mixin` 功能的 loader，方便 _Vue_ 组件打包时，注入一些公共的配置。
+类似 `Vue.mixin` 功能的 loader，在 _Vue_ 组件打包时，注入一些公共的配置。
 
 ## 安装
 
