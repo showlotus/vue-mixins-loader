@@ -1,30 +1,37 @@
+const path = require('path');
 const { runLoaders } = require('loader-runner');
 const fsPromises = require('fs').promises;
-const path = require('path');
-const diff = require('diff');
+// const VueMixinsLoader = require('../src/index');
+const VueMixinsLoader = require('../dist/index');
 
-const sourcePath = path.resolve(__dirname, './demo.vue');
+const custom = VueMixinsLoader.stringify({
+  custom: 'custom-mixin',
+  props: {
+    block: {
+      type: Object,
+      default() {
+        return {};
+      }
+    }
+  },
+  mounted() {
+    console.log("this is VueMixinsLoader's mounted.");
+  }
+});
 
 runLoaders(
   {
-    resource: sourcePath,
+    resource: path.resolve(__dirname, './src/Test.vue'),
     loaders: [
       {
-        loader: path.resolve(__dirname, '../src/index.js'),
+        loader: path.resolve(__dirname, '../dist/index.js'),
         options: {
-          tools: path.resolve('./test/vueLoaderTest/utils/tools.js'),
-          tools2: path.resolve('./test/vueLoaderTest/utils/tools.cjs'),
-          custom: {
-            props: {
-              block: {
-                type: [Number, String],
-                default: () => ({}),
-              },
-            },
-          },
-        },
-      },
-    ],
+          c: '@utils/c-mixin.js',
+          d: path.resolve('./src/utils/d-mixin.js'),
+          custom: custom
+        }
+      }
+    ]
   },
   async (err, result) => {
     if (err) {
@@ -32,23 +39,11 @@ runLoaders(
     } else {
       const newContent = result.result[0];
 
-      const sourceContent = (await fsPromises.readFile(sourcePath, { encoding: 'utf-8' })).replace(
-        /\n\s*\n/g,
-        '\n'
-      );
-      await fsPromises.writeFile(path.resolve(__dirname, './newDemo.vue'), newContent, {
-        encoding: 'utf-8',
+      await fsPromises.writeFile(path.resolve(__dirname, './src/NewTest.vue'), newContent, {
+        encoding: 'utf-8'
       });
 
-      const diffResult = diff.diffChars(sourceContent, newContent);
-      diffResult.forEach((part) => {
-        const color = part.added ? '\x1b[32m' : '\x1b[90m';
-        // if (part.value === '\n') {
-        //   process.stdout.write(' \n');
-        // } else {
-        // }
-        process.stdout.write(color + part.value);
-      });
+      console.log('NewTest.vue 已重新生成');
     }
   }
 );

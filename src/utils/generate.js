@@ -1,5 +1,4 @@
 const parser = require('@babel/parser');
-const { stringify } = require('./stringify');
 
 const genImportDeclaration = (name, path) => {
   const normalizePath = path.replace(/\\/g, '/');
@@ -8,12 +7,14 @@ const genImportDeclaration = (name, path) => {
 };
 
 module.exports.genMixinImport = (options) => {
-  const pathKeys = Object.keys(options).filter((key) => typeof options[key] === 'string');
+  const pathKeys = Object.keys(options).filter(
+    (key) => key !== 'custom' && typeof options[key] === 'string'
+  );
   const mixinImport = {};
   if (!pathKeys.length) {
     return {
       mixinImport,
-      mixinImportNodes: [],
+      mixinImportNodes: []
     };
   }
   pathKeys.forEach((key) => {
@@ -21,19 +22,19 @@ module.exports.genMixinImport = (options) => {
     mixinImport[mixinKey] = genImportDeclaration(mixinKey, options[key]);
   });
   const mixinImportAst = parser.parse(Object.values(mixinImport).join('\n'), {
-    sourceType: 'module',
+    sourceType: 'module'
   });
   const mixinImportNodes = mixinImportAst.program.body;
   return {
     mixinImport,
-    mixinImportNodes,
+    mixinImportNodes
   };
 };
 
 module.exports.genMixinCustom = (options) => {
   if (options.custom) {
-    const customMixinAst = parser.parse(`const customMixin = ${stringify(options.custom)}`, {
-      sourceType: 'module',
+    const customMixinAst = parser.parse(`const customMixin = ${options.custom}`, {
+      sourceType: 'module'
     });
     return customMixinAst.program.body;
   }

@@ -22,7 +22,7 @@ const isConstructorFn = (val) => {
     'function Object() { [native code] }',
     'function Date() { [native code] }',
     'function Function() { [native code] }',
-    'function Symbol() { [native code] }',
+    'function Symbol() { [native code] }'
   ];
   const validate = (val) => isFunction(val) && PropTypeStr.includes(val.toString());
   const genConstructorStr = (val) => {
@@ -47,6 +47,11 @@ const removeConstructorFnTag = (str) => {
   return str.replace(/['"]__ConstructorFn\(([^)]+)\)['"]/g, '$1');
 };
 
+// 移除属性名两端的双引号
+const removePropQuotes = (str) => {
+  return str.replace(/"([\w\d_]+)":/g, '$1:');
+};
+
 module.exports.stringify = (obj) => {
   const handleConstructorVal = (obj) => {
     let str;
@@ -61,5 +66,5 @@ module.exports.stringify = (obj) => {
   };
   handleConstructorVal(obj);
   const res = serialize(obj, { space: 2 });
-  return removeConstructorFnTag(res);
+  return removePropQuotes(removeConstructorFnTag(res));
 };

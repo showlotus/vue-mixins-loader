@@ -5,6 +5,7 @@ const generate = require('@babel/generator').default;
 const { getOptions } = require('loader-utils');
 
 const { genMixinCustom, genMixinImport, genNewMixinNode } = require('./utils/generate');
+const { stringify } = require('./utils/stringify');
 
 const handler = function (source, sourceMaps) {
   const options = getOptions(this);
@@ -51,10 +52,10 @@ const handler = function (source, sourceMaps) {
       }
       const genMixinsElements = newMixins.map((key) => ({
         type: 'Identifier',
-        name: key,
+        name: key
       }));
       mixins.value.elements.push(...genMixinsElements);
-    },
+    }
   });
   newImportNodes.push(...customMixinNodes);
   // 插入 mixin 节点
@@ -66,3 +67,4 @@ const handler = function (source, sourceMaps) {
 };
 
 module.exports = handler;
+module.exports.stringify = stringify;
