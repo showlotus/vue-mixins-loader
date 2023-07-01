@@ -2,14 +2,23 @@ const { parse } = require('@vue/compiler-dom');
 const parser = require('@babel/parser');
 const traverse = require('@babel/traverse').default;
 const generate = require('@babel/generator').default;
-const { getOptions } = require('loader-utils');
-
+const { getOptions, getCurrentRequest } = require('loader-utils');
+const { omit } = require('lodash');
 const { genMixinCustom, genMixinImport, genNewMixinNode } = require('./utils/generate');
 const { stringify } = require('./utils/stringify');
+const { validateExclude } = require('./utils/validateExclude');
 
 const handler = function (source, sourceMaps) {
-  const options = getOptions(this);
+  const originOptions = getOptions(this);
+  const { exclude } = originOptions;
+  const currentRequest = getCurrentRequest(this);
+  // 校验是否排除当前文件
+  if (validateExclude(exclude, currentRequest)) {
+    return source;
+  }
 
+  // 排除 exclude 属性
+  const options = omit(originOptions, 'exclude');
   if (!Object.keys(options).length) return source;
 
   const sourceAST = parse(source);

@@ -1,3 +1,10 @@
-import NewTestComponent from './NewTest.vue';
+import Vue from 'vue';
+import App from './App.vue';
+import 'element-ui/lib/theme-chalk/index.css';
 
-window.NewTestComponent = NewTestComponent;
+console.log(App);
+
+new Vue({
+  el: '#app',
+  render: (h) => h(App)
+});

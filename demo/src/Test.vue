@@ -1,31 +1,21 @@
 <template>
-  <div class="wrap"></div>
+  <div class="wrap">
+    <Child />
+  </div>
 </template>
 
 <script>
-import cMixin from '@utils/c-mixin.js';
-import dMixin from 'D:/Code/vue-mixin-loader/test/src/utils/d-mixin.js';
 import './utils/a';
 import BMixin from './utils/b-mixin';
-const customMixin = {
-  custom: "custom-mixin",
-  props: {
-    block: {
-      type: Object,
-      default: function () {
-        return {};
-      }
-    }
-  },
-  mounted: function () {
-    console.log("this is VueMixinsLoader's mounted.");
-  }
-};
+import Child from './components/Child.vue';
+
 function a() {}
 function b() {}
+
 export default {
   name: 'test-component',
-  mixins: [BMixin, cMixin, dMixin, customMixin],
+  mixins: [BMixin],
+  components: { Child },
   props: {
     prop1: String,
     prop2: {

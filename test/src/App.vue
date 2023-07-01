@@ -1,17 +1,26 @@
 <template>
-  <div class="wrap"></div>
+  <div id="app">
+    App
+    <Child />
+
+    <ElButton>Element UI Button</ElButton>
+  </div>
 </template>
 
 <script>
 import './utils/a';
 import BMixin from './utils/b-mixin';
+import Child from './components/Child.vue';
+import ElButton from 'element-ui/packages/button';
+// import { ElButton } from 'element-ui';
 
 function a() {}
 function b() {}
 
 export default {
-  name: 'test-component',
+  name: 'app',
   mixins: [BMixin],
+  components: { Child, ElButton },
   props: {
     prop1: String,
     prop2: {
@@ -23,14 +32,17 @@ export default {
       default: () => []
     }
   },
+  created() {
+    console.log('App inner created.');
+  },
   mounted() {
-    console.log('Test inner mounted');
+    console.log('App inner mounted.');
   }
 };
 </script>
 
 <style scoped>
-.wrap {
+#app {
   width: 200px;
   height: 200px;
   background-color: orange;

@@ -12,9 +12,9 @@ export default {
     };
   },
   created() {
-    console.log('this is created from c-mixin.js -----', this.$options.name);
+    console.log('this is created from c-mixin.js');
   },
   mounted() {
-    console.log('this is mounted from c-mixin.js -----', this.$options.name);
+    console.log('this is mounted from c-mixin.js');
   }
 };
