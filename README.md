@@ -12,7 +12,7 @@ npm install vue-mixins-loader -save-dev
 
 ## 配置
 
-- 以路径的方式引入：需要以绝对路径的方式引入，或者以别名的方式引入。
+以路径的方式引入：需要以绝对路径的方式引入，或者以别名的方式引入。
 
 ```js
 options: {
@@ -23,7 +23,7 @@ options: {
 }
 ```
 
-- 使用自定义 `mixin` 对象，配置在 `custom` 属性中。由于 _loader_ 的 _options_ 在 _webpack_ 内部处理时，会转为 _JSON_ 格式，为确保配置能生效，需要使用 **`vue-mixins-loader`** 提供的 `stringify` 方法将其转为一个字符串类型。
+使用自定义 `mixin` 对象，配置在 `custom` 属性中。由于 _loader_ 的 _options_ 在 _webpack_ 内部处理时，会转为 _JSON_ 格式，为确保配置能生效，需要使用 **`vue-mixins-loader`** 提供的 `stringify` 方法将其转为一个字符串类型。
 
 ```js
 options: {
@@ -38,6 +38,16 @@ options: {
       console.log("this is custom mixins's mounted");
     }
   });
+}
+```
+
+`exclude` 属性（_v1.0.2_ 新增），类型为 `string` 或者 `string[]`。为一个正则表达式字符串，将匹配到的文件排除，不额外注入混入。
+
+```js
+options: {
+  exclude: 'element-ui',
+  // 或者
+  exclude: ['components/', 'view-design']
 }
 ```
 
@@ -60,6 +70,7 @@ module.exports = {
           {
             loader: 'vue-mixins-loader',
             options: {
+              exclude: ['components/', 'view-design'], // v1.0.2 new add
               tools: path.resolve('./src/utils/tools.js'),
               tools2: path.resolve('./src/utils/tools2.js'),
               tools3: '@/utils/tools3.js',
