@@ -2,7 +2,7 @@
 
 类似 `Vue.mixin` 功能的 loader，在 _Vue_ 组件打包时，注入一些公共的配置。
 
-> 如何你对这个 _Loader_ 如何实现很感兴趣，可以戳这里 👉 [我的博客](https://showlotus.github.io/eff68783c23d.html)。
+> 如何你对这个 _Loader_ 如何实现很感兴趣，可以戳这里 👉 [我的博客](https://showlotus.github.io/7d7ab809abc3.html)。
 
 ## 安装
 
